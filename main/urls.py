@@ -12,7 +12,7 @@ schema_view = get_schema_view(
         description="Flight Reservation API project provides flight and reservation info",
         terms_of_service="#",
         contact=openapi.Contact(
-            email="rafe@clarusway.com"),  # Change e-mail on this line!
+            email="esadd26@gmail.com"),  # Change e-mail on this line!
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -29,4 +29,8 @@ urlpatterns = [
          cache_timeout=0), name="schemaredoc"),
     path('__debug__/', include('debug_toolbar.urls')),
 
+    path('users/', include('users.urls'))
 ]
+
+# if DEBUG :
+#     urlpatterns += path('__debug__/', include('debug_toolbar.urls')),
