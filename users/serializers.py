@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.contrib.auth.password_validation import validate_password
 
+# User = settings.AUTH_USER_MODEL
+
 class RegisterSerializers(serializers.ModelSerializer):
     email = serializers.EmailField(
         required=True,
@@ -24,7 +26,7 @@ class RegisterSerializers(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = settings.AUTH_USER_MODEL
+        # model = settings.AUTH_USER_MODEL
         model = User
         fields = (
             'username',
@@ -38,7 +40,7 @@ class RegisterSerializers(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password1']:
             raise serializers.ValidationError(
-                {"password: Password didn't match ...."}
+                {"password": "Password didn't match ...."}
             )
         return data
 
