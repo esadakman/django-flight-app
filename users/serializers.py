@@ -1,14 +1,18 @@
-from rest_framework import serializers,validators
-from django.contrib.auth.models import User
-from django.conf import settings
+from rest_framework import serializers, validators
+# from django.contrib.auth.models import User
+# from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
+from dj_rest_auth.serializers import TokenSerializer
 
-# User = settings.AUTH_USER_MODEL
+User = get_user_model()
 
-class RegisterSerializers(serializers.ModelSerializer):
+
+class RegisterSerializer(serializers.ModelSerializer):
+# email adreslerinin unique olmasını sağlamak için validators yazdık
     email = serializers.EmailField(
         required=True,
-        validators=[validators.UniqueValidator(queryset=User.objects.all())] # email adreslerinin unique olmasını sağlamak için validators yazdık
+        validators=[validators.UniqueValidator(queryset=User.objects.all())]
     )
     password = serializers.CharField(
         write_only=True,
@@ -26,7 +30,6 @@ class RegisterSerializers(serializers.ModelSerializer):
     )
 
     class Meta:
-        # model = settings.AUTH_USER_MODEL
         model = User
         fields = (
             'username',
@@ -40,7 +43,7 @@ class RegisterSerializers(serializers.ModelSerializer):
     def validate(self, data):
         if data['password'] != data['password1']:
             raise serializers.ValidationError(
-                {"password": "Password didn't match ...."}
+                {"password": "Password didn't match..... "}
             )
         return data
 
@@ -51,3 +54,22 @@ class RegisterSerializers(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
+# ! giriş yaptıktan sonra username ve email bilgilerini döndürmek için
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'username',
+            'email'
+        )
+
+
+class CustomTokenSerializer(TokenSerializer):
+    user = UserSerializer(read_only=True)
+
+    class Meta(TokenSerializer.Meta):
+        fields = (
+            'key',
+            'user'
+        )
