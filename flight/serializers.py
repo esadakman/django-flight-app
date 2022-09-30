@@ -48,10 +48,10 @@ class ReservationSerializer(serializers.ModelSerializer):
             "passenger"
         )
 
-    # ! reservation serializer'de oluşturulan reservationları burda create edemediğim için models.Reservation'da create etmem gerekiyor
-    # ! passengerlar'ı ise ayrı bir şekilde çekip Passenger tabloma create etmem gerekiyor
-    # ! gelen bu data'ları yakalıyacağım yer ise ModelSerializer'da da yer alan create metodudur.
-    # ! bu create metodunu alıp 
+# ! reservation serializer'de oluşturulan reservationları burda create edemediğimiz için models.Reservation'da create etmem gerekiyor
+# ! passengerlar'ı ise ayrı bir şekilde çekip Passenger tabloma create etmem gerekiyor
+# ! gelen bu data'ları yakalıyacağım yer ise ModelSerializer'da da yer alan create metodudur.
+# ! bu create metodunu alıp 
     def create(self, validated_data):
         # ? gelen datamı passenger_data'ya pop() ile atıyorum
         passenger_data = validated_data.pop('passenger')
@@ -66,3 +66,12 @@ class ReservationSerializer(serializers.ModelSerializer):
             reservation.passenger.add(pas)
         reservation.save()
         return reservation
+
+
+# ! yukarda ki flight serializerımızdan farklı olarak reservation serializers'ımızıda koyduğumuz yeni bir StaffFlightSerializer yazıyoruz
+class StaffFlightSerializer(serializers.ModelSerializer):
+    # ? models'da vermiş oldumuz related name'i kullanarak ReservationSerializer'ı çağırıyoruz    
+    reservation = ReservationSerializer(many=True, read_only=True)
+    class Meta:
+        model = Flight
+        fields = "__all__"
