@@ -51,7 +51,7 @@ LOGGING = {
             'class': 'logging.FileHandler',
             "formatter": "verbose",
             'filename': './debug.log',
-            'level': 'INFO',
+            'level': 'WARNING',
         },
     },
     # A logger is the entry point into the logging system.

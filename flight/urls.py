@@ -3,10 +3,12 @@ from .views import FlightView
 
 
 router = routers.DefaultRouter()
-
-router.register("flights", FlightView)
+router.register('flights', FlightView)
 
 urlpatterns = [
     
 ]
+
 urlpatterns += router.urls
+
+
