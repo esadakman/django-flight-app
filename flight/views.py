@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializers import FlightSerializer
+from .serializers import FlightSerializer,  ReservationSerializer
 from rest_framework import viewsets
 from .models import Flight, Passenger, Reservation
 from .permissions import IsStafforReadOnly
@@ -10,4 +10,6 @@ class FlightView(viewsets.ModelViewSet):
     serializer_class = FlightSerializer
     permission_classes = (IsStafforReadOnly,) # * oluşturduğumuz permission'ı view'ımıza ekliyoruz
     
-    
+class ReservationView(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
