@@ -1,6 +1,6 @@
 from rest_framework import permissions
 
-# ! flightların sadece yetkili kişiler tarafından oluşturulması ve değiştirilmesi için permission.py dosyasını oluşturduk
+# ! flightların sadece yetkili kişiler tarafından oluşturulması ve değiştirilmesi için permission.py dosyasını oluşturduk ⬇️
 class IsStafforReadOnly(permissions.IsAdminUser):
     
     def has_permission(self, request, view):

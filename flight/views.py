@@ -16,4 +16,3 @@ class FlightView(viewsets.ModelViewSet):
 class ReservationView(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
-     
